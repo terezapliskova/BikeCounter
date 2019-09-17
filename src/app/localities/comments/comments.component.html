@@ -1,0 +1,56 @@
+<div fxLayout="row" [class.moved-container]="isDesktop()" [class.container]="!isDesktop()">
+
+    <div fxFlex="10" fxShow="false" fxShow.gt-sm></div>
+    <div fxFlex.lt-md="100" fxFlex.gt-sm="80">
+        <div class="new-comment">
+            <mat-form-field>
+                <input matInput placeholder="Alias" [(ngModel)]="commentToAdd.userAlias">
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea matInput placeholder="Text" [(ngModel)]="commentToAdd.text"></textarea>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="addComment()">{{ 'APP.ADD' | translate }}</button>
+        </div>
+
+        <div class="separator"></div>
+        <div class="bottom">
+            <button mat-icon-button (click)="sort('desc')" class="map-button"
+                [matTooltip]="'LOCALITY.SORT_FROM_YOUNG_TO_OLD' | translate">
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button mat-icon-button (click)="sort('asc')" class="map-button"
+                [matTooltip]="'LOCALITY.SORT_FROM_OLD_TO_YOUNG' | translate">
+                <mat-icon>arrow_upward</mat-icon>
+            </button>
+
+        </div>
+        <div class="comments">
+            <div *ngIf="comments.length === 0">
+                <mat-card>{{'LOCALITY.NO_COMMENTS' | translate}}</mat-card>
+            </div>
+            <div *ngIf="comments.length > 0">
+
+
+                <div *ngFor="let com of commentsToShow">
+                    <div class="comment">
+                        <div class='row'>
+                            <div class="alias">{{com.userAlias}}</div>
+                            <div class="date">{{com.time}}</div>
+                        </div>
+                        <div class='row'>
+                            <div class="text">{{com.text}}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <common-paginator #commonPaginator [arrayOfObjects]="comments"
+                    (objToShowChange)="setCommentsToShow($event)" [sizeOptions]="pageSizeOptions" *ngIf="isDesktop()">
+                </common-paginator>
+            </div>
+        </div>
+
+    </div>
+</div>

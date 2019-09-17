@@ -1,0 +1,14 @@
+{
+  "appId": "com.bikecounter.app",
+  "appName": "bikecounter",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorFirebaseAuth": {
+      "providers": ["google.com", "twitter.com", "facebook.com", "phone"],
+      "languageCode": "en",
+      "nativeAuth": false
+    }
+  }
+}

@@ -1,0 +1,85 @@
+<div class="table-container">
+    <div *ngIf="!showInfo">
+        <common-filter [dataSource]="data"></common-filter>
+        <table mat-table [dataSource]="data">
+            <ng-container matColumnDef="bikecounter">
+                <td mat-header-cell *matdeaderCellDef> </td>
+                <td mat-cell *matCellDef="let row"> {{row.desc}} </td>
+            </ng-container>
+            <ng-container matColumnDef="menu">
+                <td mat-header-cell *matdeaderCellDef> </td>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button class="grey-icon" (click)="select(row)">
+                        <mat-icon [class.light-blue]="selected === row">pin_drop</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="showInfo" class="detail-table-container">
+        <div class="button-container">
+            <button mat-icon-button class="grey-icon close" (click)="showInfo = false">
+                <mat-icon [class.light-blue]="">close</mat-icon>
+            </button>
+        </div>
+        <p><b>{{ selected.sensorConfiguration[selected.bikecounter].desc }}</b></p>
+        <table id="detail-table">
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.ROUTE'| translate }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.sensorConfiguration">
+                        {{ selected.sensorConfiguration[selected.bikecounter].route }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ "BIKECOUNTER.ALL_DETECTION_COUNT"| translate }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.detectionCount">
+                        {{ selected.countedStats.detectionCount }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                    {{ selected.sensorConfiguration[selected.bikecounter]['directions.0.desc'] }}: </td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.detectionDir0Count">
+                        {{selected.countedStats.detectionDir0Count}}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                    {{ selected.sensorConfiguration[selected.bikecounter]['directions.1.desc'] }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.detectionDir1Count">
+                        {{ selected.countedStats.detectionDir1Count }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.DIRECTION_UNIFORMITY'| translate }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.directionUniformity">
+                        {{ selected.countedStats.directionUniformity }} </ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.ACTUAL_TEMPERATURE'| translate }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.actualTemperature">
+                        {{ selected.countedStats.actualTemperature }} °C</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <td>{{ 'BIKECOUNTER.AVG_TEMPERATURE'| translate }}:</td>
+                <td>
+                    <ng-container *ngIf="selected.countedStats && selected.countedStats.avgTemperature">
+                        {{ selected.countedStats.avgTemperature }} °C</ng-container>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

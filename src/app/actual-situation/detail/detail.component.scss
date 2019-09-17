@@ -1,0 +1,51 @@
+@import '~@angular/material/theming';
+
+.row {
+   margin: 10px
+}
+
+.detail-table-row {
+    border-bottom: 1px solid lightgray
+
+}
+
+table#detail-table{
+    color: mat-color($mat-grey, 800);
+    border-collapse: collapse;
+    tr {
+        height: 40px;
+        th {
+            padding-right: 15px;
+            text-align: left;
+            max-width: 80%;
+        }
+        td {
+            width: 20%
+        }
+    }
+}
+
+.loading-div {
+    position: relative;;
+    top:50%;
+    left:5%;
+    font-size: 24px;
+    text-align: center;
+    color: darken(grey, 20%);
+}
+
+@keyframes blink {
+    0% {
+      opacity: .2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: .2;
+    }
+}
+
+.map-container{
+
+}

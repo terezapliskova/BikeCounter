@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "863948058719",
+    "firebase_url": "https://bikecounter-1551959280980.firebaseio.com",
+    "project_id": "bikecounter-1551959280980",
+    "storage_bucket": "bikecounter-1551959280980.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863948058719:android:38f5219ed10074c7",
+        "android_client_info": {
+          "package_name": "com.bikecounter.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863948058719-ib9ccql2tcebtudhu0674d9t4h3v2vos.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxtrEo9_eDNHoaW_DKMJZTunZiHnipOwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863948058719-ib9ccql2tcebtudhu0674d9t4h3v2vos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

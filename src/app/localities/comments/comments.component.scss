@@ -1,0 +1,53 @@
+@import "~@angular/material/theming";
+
+.new-comment {
+  padding: 10px;
+  margin-top: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.comments {
+  padding: 10px;
+
+  .comment {
+    .row {
+      width: 100%;
+      .alias {
+        padding-right: 20px;
+        font-weight: bold;
+        float: left;
+      }
+      .date {
+        color: mat-color($mat-light-blue, 900);
+        float: left;
+      }
+      .text {
+        width: 100%;
+        margin-top: 5px;
+        float: left;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .bottom {
+    float: left;
+    width: 100%;
+    color: mat-color($mat-grey, 600);
+  }
+}
+
+.separator {
+  margin: 5px 0 5px 0;
+  border-top: mat-color($mat-grey, 300) 1px solid;
+}
+
+.moved-container {
+  padding-top: 80px;
+}
+
+.container {
+  padding-top: 10px;
+}

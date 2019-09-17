@@ -1,0 +1,19 @@
+<h1 matDialogTitle>{{ getTitle() | translate }}</h1>
+
+
+
+<mat-radio-group class="radio-group" [(ngModel)]="data.user.role">
+    <mat-radio-button class="radio-button" value="ADMIN">{{ 'USERS.ROLE.ADMIN' | translate }}</mat-radio-button>
+    <mat-radio-button class="radio-button" value="USER">{{ 'USERS.ROLE.USER' | translate }}</mat-radio-button>
+    <mat-radio-button class="radio-button" value="SERVICE">{{ 'USERS.ROLE.SERVICE' | translate }}</mat-radio-button>
+</mat-radio-group>
+
+
+
+
+<div mat-dialog-actions align="end">
+    <button [color]="color" mat-button (click)="dialogRef.close(null)">{{ 'APP.CANCEL' | translate }}</button>
+    <button *ngIf="showEditBtn " [color]="color" mat-button (click)="dialogRef.close(data)">{{
+        'APP.EDIT' | translate }}</button>
+
+</div>

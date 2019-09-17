@@ -1,0 +1,37 @@
+{
+  "APP": {
+    "TITLE": "BikeCounter",
+    "MAIN": "Main page",
+    "USERS": "Users administration"
+  },
+  "AUTH": {
+    "TITLE": "Login",
+    "USERNAME": "Username",
+    "REQUIRED_USERNAME": "Please enter username",
+    "PASSWORD": "Password",
+    "REQUIRED_PASSWORD": "Password is required",
+    "EMAIL": "E-mail",
+    "REQUIRED_EMAIL": "Please enter valid e-mail address",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "BAD_LOGIN": "Login mistake. Please try it again.",
+    "LOGIN_EXPIRED": "Login expired."
+  },
+  "REGISTRATION": {
+    "TITLE": "Registration",
+    "REGISTR": "Registration",
+    "REGISTRATION_SUCCES": "Registration was OK, You was login successfully",
+    "BAD_REGISTRATION": "registration mistake. Please try it again."
+  },
+  "USERS": {
+    "EXIST": "User exist."
+  },
+  "PAGINATOR": {
+    "OF": "z",
+    "FIRST_PAGE": "First page",
+    "ITEMS_PER_PAGE": "Items per page",
+    "LAST_PAGE": "Last page",
+    "NEXT_PAGE": "Next page",
+    "PREVIOUS_PAGE": "Previous page"
+}
+}

@@ -1,0 +1,66 @@
+<common-sidenav #sidenav [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication"
+    [navigationsPersonal]="navigationsPeronal" [translate]="translate" [user]="user" [isAdmin]="isAdmin"
+    [profileName]="profileName" (logout)="logout()" (login)="login()" [showLogoutButt]='false'>
+    <common-toolbar #toolbar [translate]="translate" [title]="settings.title" showMenuBtn="true"
+        [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [isAdmin]="isAdmin"
+        [profileName]="profileName" (sidenavBtnClick)="sidenav.open()" [heightOfAdditionalToolbar]="100"
+        (login)="redirectLogin()" (detail)="detail()" (logout)="logout()" [showTitlebarContent]="isDesktop()">
+        <div title class='logo'><img src="../../assets/logo-white-blue.png" class='logo'></div>
+    </common-toolbar>
+    <div fxLayout="row">
+        <div fxFlex="10" fxShow="false" fxShow.gt-sm></div>
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="80">
+            <common-filter [dataSource]="bikes"></common-filter>
+            <table mat-table matSort #localityTable [dataSource]="bikes" class="table-bc"
+                (matSortChange)="sortData($event)">
+                <ng-container matColumnDef="favorite">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button *ngIf="profileName && !favoriteLoc.includes(row.bikecounter)"
+                            (click)="addToFavorite(row.bikecounter)">
+                            <mat-icon [matTooltip]="'BIKECOUNTER.ADD_TO_FAVORITE'| translate">star_border</mat-icon>
+                        </button>
+                        <button mat-icon-button *ngIf="profileName && favoriteLoc.includes(row.bikecounter)"
+                            (click)="deleteFromFavorite(row.bikecounter)">
+                            <mat-icon [matTooltip]="'BIKECOUNTER.DELETE_FROM_FAVORITE'| translate">star</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="bikecounter">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'BIKECOUNTER.BIKECOUNTER'| translate }}
+                    </th>
+                    <td mat-cell *matCellDef="let row" [routerLink]="['/locality/', row.bikecounter]"> {{row.desc}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="route">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'BIKECOUNTER.ROUTE'| translate }} </th>
+                    <td mat-cell *matCellDef="let row" [routerLink]="['/locality/', row.bikecounter]">
+                        <div *ngIf="row.sensorConfiguration"> {{row.sensorConfiguration[row.bikecounter].route}}</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="menu">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row" class="tab-menu">
+                        <button mat-icon-button>
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-table">
+                </tr>
+            </table>
+            <mat-card *ngIf="bikes.data.length === 0" class="loading-card">
+                <mat-progress-spinner color="primary" mode="indeterminate">
+                </mat-progress-spinner>
+            </mat-card>
+            <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+
+</common-sidenav>

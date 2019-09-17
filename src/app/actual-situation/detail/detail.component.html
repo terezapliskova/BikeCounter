@@ -1,0 +1,70 @@
+<common-sidenav #sidenav [translate]="translate" [user]="user" [isAdmin]="isAdmin" [profileName]="profileName"
+    [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [navigationsPersonal]="navigationsPeronal"
+    [showLogoutButt]='false'>
+    <common-toolbar #toolbar [translate]="translate" [showProgressBar]="showProgressBar" showBackBtn="true"
+        [title]="bikecounter.desc" [showBoxShadowByDefault]='true' [showProgressBarFiller]='false'></common-toolbar>
+
+    <div class="map-container" [style.width.px]="width" [style.height.px]="height">
+        <app-map *ngIf="showMap" [bikecounters]="[bikecounter]" [initWidth]="width" [initHeight]="height"></app-map>
+        <div *ngIf="!showMap" class="loading-div">
+            {{ 'APP.LOADING' | translate}} <span>.</span><span>.</span><span>.</span>
+        </div>
+    </div>
+    <div class="row">
+        <table id="detail-table">
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.ROUTE'| translate }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.sensorConfiguration">
+                        {{ bikecounter.sensorConfiguration[bikecounter.bikecounter].route }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ "BIKECOUNTER.ALL_DETECTION_COUNT"| translate }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.detectionCount">
+                        {{ bikecounter.countedStats.detectionCount }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                    {{ bikecounter.sensorConfiguration[bikecounter.bikecounter]['directions.0.desc'] }}: </th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.detectionDir0Count">
+                        {{bikecounter.countedStats.detectionDir0Count}}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                    {{ bikecounter.sensorConfiguration[bikecounter.bikecounter]['directions.1.desc'] }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.detectionDir1Count">
+                        {{ bikecounter.countedStats.detectionDir1Count }}</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.DIRECTION_UNIFORMITY'| translate }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.directionUniformity">
+                        {{ bikecounter.countedStats.directionUniformity }} </ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.ACTUAL_TEMPERATURE'| translate }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.actualTemperature">
+                        {{ bikecounter.countedStats.actualTemperature }} °C</ng-container>
+                </td>
+            </tr>
+            <tr class='detail-table-row'>
+                <th>{{ 'BIKECOUNTER.AVG_TEMPERATURE'| translate }}:</th>
+                <td>
+                    <ng-container *ngIf="bikecounter.countedStats && bikecounter.countedStats.avgTemperature">
+                        {{ bikecounter.countedStats.avgTemperature }} °C</ng-container>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+</common-sidenav>

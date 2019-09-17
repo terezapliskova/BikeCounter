@@ -1,0 +1,199 @@
+<div class="main-container" [class.moved-container]="isDesktop()">
+    <div fxLayout="row">
+        <div fxFlex="10" fxShow="false" fxShow.gt-sm></div>
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="80">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <div class="select-type">
+                    <mat-form-field>
+                        <mat-label></mat-label>
+                        <mat-select [(value)]="hourStats" (selectionChange)="selectChanged($event)">
+                            <mat-option [value]='0'>Hodinové statistiky</mat-option>
+                            <mat-option [value]='1'>5 minutové statistiky</mat-option>
+                            <mat-option [value]='2'>Denní statistiky</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="datetime-group">
+                    <div class="pickers">
+                        <mat-form-field class="date-picker">
+                            <input matInput #fromInput [matDatepicker]="pickerFrom"
+                                [placeholder]="'APP.FROM' | translate" (dateChange)="fromChanged($event)"
+                                [max]="maxDate">
+                            <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerFrom></mat-datepicker>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="hr-picker">
+                        <input matInput [ngxTimepicker]="hourPickerFrom" [format]="24" readonly class="time"
+                            [value]="timeFrom">
+                        <ngx-material-timepicker-toggle [for]="hourPickerFrom" class="time">
+                            <button mat-icon-button ngxMaterialTimepickerToggleIcon>
+                                <mat-icon>schedule</mat-icon>
+                            </button>
+                        </ngx-material-timepicker-toggle>
+                        <ngx-material-timepicker #hourPickerFrom [defaultTime]="'00:00'"
+                            (timeSet)="setTimeFrom($event)">
+                        </ngx-material-timepicker>
+                    </div>
+                </div>
+
+                <div class="datetime-group">
+                    <div class="pickers">
+                        <mat-form-field class="date-picker">
+                            <input matInput [matDatepicker]="pickerTo" [placeholder]="'APP.TO' | translate"
+                                (dateChange)="toChanged($event)" [max]="maxDate">
+                            <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerTo></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="hr-picker">
+                        <input matInput [ngxTimepicker]="hourPickerTo" [format]="24" readonly class="time"
+                            [value]="timeTo">
+                        <ngx-material-timepicker-toggle [for]="hourPickerTo" class="time">
+                            <button mat-icon-button ngxMaterialTimepickerToggleIcon>
+                                <mat-icon>schedule</mat-icon>
+                            </button>
+                        </ngx-material-timepicker-toggle>
+                        <ngx-material-timepicker #hourPickerTo [defaultTime]="'00:00'" (timeSet)="setTimeTo($event)">
+                        </ngx-material-timepicker>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="data-table" *ngIf="dataLoaded">
+
+                <table mat-table [dataSource]="statsData" class="stat-table" matSort (matSortChange)="drawGraph()">
+
+                    <ng-container matColumnDef="time">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'APP.DATE_AND_TIME' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{getDate(element.time)}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="detectionCount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'BIKECOUNTER.ALL_DETECTION_COUNT' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.detectionCount}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="detectionDir0Count">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'BIKECOUNTER.DETECTION_COUNT_DIRECTION' | translate}}
+                            {{bikecounter.sensorConfiguration[bikecounter.bikecounter]['directions.0.desc']}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.detectionDir0Count}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="detectionDir1Count">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'BIKECOUNTER.DETECTION_COUNT_DIRECTION' | translate}}
+                            {{bikecounter.sensorConfiguration[bikecounter.bikecounter]['directions.1.desc']}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.detectionDir1Count}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="velocityAvg">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'LOCALITY.VELOCITY_AVG' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.velocityAvg}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actualTemperature">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'LOCALITY.TEMPERATURE' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.actualTemperature}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="humidity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{'LOCALITY.HUMIDITY' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.humidity}}
+                        </td>
+                    </ng-container>
+
+                    <tbody>
+                        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+                    </tbody>
+                </table>
+                <div  [class.mobile-footer]="!isDesktop()" [class.footer]="isDesktop()">
+                        <mat-paginator [length]="statsData.data.length" [pageSize]="pageSize"
+                        [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+                    <div class='buttons'>
+                        <button mat-button mat-icon-button *ngIf="showExportCSV" [matTooltip]="'LOCALITY.SAVE_CSV' | translate"
+                            (click)="exportCSV()">
+                            <mat-icon>get_app</mat-icon>
+                        </button>
+                        <button mat-icon-button [matMenuTriggerFor]="downloadMenu"
+                            [matTooltip]="'LOCALITY.SAVE_PDF' | translate">
+                            <mat-icon>insert_drive_file</mat-icon>
+                        </button>
+                        <mat-menu #downloadMenu="matMenu">
+                            <button mat-menu-item (click)="save(false)">
+                                <mat-icon>description</mat-icon>
+                                <span>{{ 'LOCALITY.SAVE_TABLE' | translate }}</span>
+                            </button>
+                            <button mat-menu-item (click)="save(true)">
+                                <mat-icon>insert_chart</mat-icon>
+                                <span>
+                                    {{ 'LOCALITY.SAVE_TAB_GRAPH' | translate}}
+                                </span>
+                            </button>
+                        </mat-menu>
+                    </div>
+
+                </div>
+
+            </div>
+            <mat-tab-group *ngIf="validInputs" (selectedTabChange)="loadGraph($event)">
+                <mat-tab [label]="'LOCALITY.GRAPH_CYCLIST_DETECTION' | translate">
+                    <div>
+                        <canvas id="statChart">{{ statChart }}</canvas>
+                    </div>
+                </mat-tab>
+                <mat-tab [label]="'LOCALITY.GRAPH_TEMPERATURE' | translate">
+                    <div>
+                        <canvas id="temperatureChart">{{ temperatureChart }}</canvas>
+                    </div>
+                </mat-tab>
+                <mat-tab [label]="'LOCALITY.GRAPH_VELOCITY_AVG' | translate">
+                    <div>
+                        <canvas id="velocityChart">{{ velocityChart }}</canvas>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+
+        </div>
+
+    </div>
+    <div class="pdf-graphs">
+        <canvas id="statChartPDF">{{ statChartPDF }}</canvas>
+    </div>
+    <div class="pdf-graphs">
+        <canvas id="temperatureChartPDF">{{ temperatureChartPDF }}</canvas>
+    </div>
+    <div class="pdf-graphs">
+        <canvas id="velocityChartPDF">{{ velocityChartPDF }}</canvas>
+    </div>
+</div>

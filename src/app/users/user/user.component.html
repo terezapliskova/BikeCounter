@@ -1,0 +1,15 @@
+<common-sidenav #sidenav [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication"
+    [translate]="translate" [user]="user" [isAdmin]="isAdmin" [profileName]="profileName" (logout)="logout()"
+    (login)="login()" [showLogoutButt]='false'>
+    <common-toolbar #toolbar [translate]="translate" [title]="settings.title" showMenuBtn="true"
+        [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [isAdmin]="isAdmin"
+        [profileName]="profileName" (sidenavBtnClick)="sidenav.open()" [heightOfAdditionalToolbar]="100"
+        (login)="redirectLogin()" (logout)="logout()" [showTitlebarContent]="isDesktop()">
+        <div title class='logo'><img src="../../assets/logo-white-blue.png" class='logo'></div>
+    </common-toolbar>
+    <div fxLayout="row">
+        <div fxFlex="10" fxShow="false" fxShow.gt-sm></div>
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="80">
+        </div>
+    </div>
+</common-sidenav>

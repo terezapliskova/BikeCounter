@@ -1,0 +1,60 @@
+<common-sidenav #sidenav [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication"
+  [translate]="translate" [user]="user" [isAdmin]="isAdmin" [profileName]="profileName" [showLogoutButt]='false'>
+  <common-toolbar #toolbar [translate]="translate" [title]="settings.title" showMenuBtn="true"
+    [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [isAdmin]="isAdmin"
+    [profileName]="profileName" (sidenavBtnClick)="sidenav.open()"
+    [heightOfAdditionalToolbar]="100" (login)="redirectLogin()"  (logout)="logout()"
+    (addBtnClick)="showNewDialog()" [showTitlebarContent]="isDesktop()">
+    <div title class='logo'><img src="../../assets/logo-white-blue.png" class='logo'></div>
+  </common-toolbar>
+  <div fxLayout="row">
+    <div fxFlex="10" fxShow="false" fxShow.gt-sm></div>
+    <div fxFlex.lt-md="100" fxFlex.gt-sm="80">
+
+      <common-filter [dataSource]="users"></common-filter>
+      <mat-table #tableUsers [dataSource]="users" matSort>
+
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'AUTH.EMAIL' | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'AUTH.ROLE' | translate }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user">{{ user.role }}</mat-cell>
+              </ng-container>
+
+        <ng-container matColumnDef="menu">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let user" class="user-menu">
+            <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #actionMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="showEditDialog(user)">
+                <mat-icon>edit</mat-icon>
+                <span>{{ 'AUTH.EDIT_ROLE' | translate }}...</span>
+              </button>
+
+              <button mat-menu-item (click)="showDeleteDialog(user)">
+                <mat-icon>delete</mat-icon>
+                <span>{{ 'APP.DELETE' | translate }}...</span>
+              </button>
+
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        showFirstLastButtons></mat-paginator>
+
+    </div>
+  </div>
+
+</common-sidenav>

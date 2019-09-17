@@ -1,0 +1,48 @@
+<div class="card-container" fxFlex.lt-sm="100%"  fxFlex.gt-xs="80%" fxFlex.gt-sm="60%" fxFlex.gt-md="40%">
+<mat-card>
+  <mat-card-title *ngIf="!registration">{{ 'AUTH.TITLE' | translate }}</mat-card-title>
+  <mat-card-title *ngIf="registration">{{ 'REGISTRATION.TITLE' | translate }}</mat-card-title>
+  <mat-card-subtitle><mat-error  *ngIf="userExist(credentials.email) && registration"  class="alert"> {{ 'USERS.EXIST' | translate }}</mat-error></mat-card-subtitle>
+  <form  #loginForm="ngForm">
+      <mat-card-content>
+         <!-- <p>
+              <mat-form-field hideRequiredMarker="true">
+                  <input matInput required [(ngModel)]="credentials.username" name="username" [disabled]="toolbar.showProgressBar" [placeholder]="'AUTH.USERNAME' | translate">
+                  <mat-error>{{ 'AUTH.REQUIRED_USERNAME' | translate }}</mat-error>
+              </mat-form-field>
+          </p>-->
+          <p>
+            <mat-form-field hideRequiredMarker="true" >
+                <input matInput required type="email" [(ngModel)]="credentials.email" name="email" [placeholder]="'AUTH.EMAIL' | translate" [formControl]="emailFormControl">
+                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">{{ 'AUTH.REQUIRED_EMAIL' | translate }}</mat-error>
+            </mat-form-field>
+        </p>
+          <p>
+              <mat-form-field hideRequiredMarker="true" >
+                  <input matInput required type="password" [(ngModel)]="credentials.password"  minlength="6" name="password" [disabled]="toolbar.showProgressBar" [placeholder]="'AUTH.PASSWORD' | translate">
+                  <mat-error>{{ 'AUTH.REQUIRED_PASSWORD' | translate }}</mat-error>
+              </mat-form-field>
+          </p>
+
+
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+          <button *ngIf="!registration" mat-raised-button (click)="login()" [disabled]="!loginForm.form.valid || toolbar.showProgressBar">{{ 'AUTH.LOGIN' | translate }}</button>
+          <button *ngIf="registration" mat-raised-button (click)="makeRegistration()" [disabled]="(!loginForm.form.valid || toolbar.showProgressBar) && userExist(credentials.username)">{{ 'REGISTRATION.REGISTR' | translate }}</button>
+      </mat-card-actions>
+  </form>
+  <div class="social" *ngIf="!registration">
+      <p>{{'AUTH.LOGIN_WITH_SOCIAL' | translate}} </p>
+      <button mat-button (click)="socialSignIn('facebook')"><i class="fab fa-facebook icon"></i></button>
+      <button mat-button (click)="socialSignIn('google')"><i class="fab fa-google icon"></i></button>
+
+  </div>
+</mat-card>
+<div class="footer">
+  <div class="left">
+      <button mat-button (click)="openLanguageDialog()" color="primary">{{ language | translate }}</button>
+  </div>
+
+</div>
+</div>

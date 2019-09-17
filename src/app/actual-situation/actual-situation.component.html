@@ -1,0 +1,131 @@
+<p class="period">{{"APP.PERIOD" | translate}} {{"APP.FROM" | translate | lowercase}}
+    {{getDate(today + ' ' + startTime)}} {{"APP.TO" | translate | lowercase}} {{getDate(today + ' ' + time)}}</p>
+
+<common-filter [dataSource]="bikes"></common-filter>
+
+<table mat-table #tableBC [dataSource]="bikes" matSort multiTemplateDataRows>
+
+    <ng-container matColumnDef="bikecounter">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "BIKECOUNTER.BIKECOUNTER" | translate}} </th>
+        <td mat-cell *matCellDef="let row"> {{row.desc}} </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="route">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "BIKECOUNTER.ROUTE" | translate}} </th>
+        <td mat-cell *matCellDef="let row"> {{row.sensorConfiguration[row.bikecounter].route}} </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="detectionCount">
+        <th mat-header-cell *matHeaderCellDef> {{ "BIKECOUNTER.ALL_DETECTION_COUNT" | translate}} </th>
+        <td mat-cell *matCellDef="let row">
+            <div *ngIf="row.countedStats">{{row.countedStats.detectionCount}}</div>
+        </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="directionsUniformity">
+        <th mat-header-cell *matHeaderCellDef> {{ "BIKECOUNTER.DIRECTION_UNIFORMITY" | translate}} </th>
+        <td mat-cell *matCellDef="let row">
+            <div *ngIf="row.countedStats">{{row.countedStats.directionUniformity}} </div>
+        </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="actTemperature">
+        <th mat-header-cell *matHeaderCellDef> {{ "BIKECOUNTER.ACTUAL_TEMPERATURE" | translate}} [°C] </th>
+        <td mat-cell *matCellDef="let row">
+            <div *ngIf="row.countedStats && row.countedStats.actualTemperature">{{row.countedStats.actualTemperature}}
+            </div>
+            <div *ngIf="row.countedStats && row.countedStats.actualTemperature === undefined"> - </div>
+        </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+            <div class="detail" [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="row">
+                    <table id="detail-table">
+                        <tr class='detail-table-row'>
+                            <th>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                                {{ row.sensorConfiguration[row.bikecounter]['directions.0.desc'] }}:</th>
+                            <td>
+                                <ng-container *ngIf="row.countedStats && row.countedStats.detectionDir0Count">
+                                    {{row.countedStats.detectionDir0Count}}</ng-container>
+                            </td>
+                        </tr>
+                        <tr class='detail-table-row'>
+                            <th>{{ 'BIKECOUNTER.DETECTION_COUNT_DIRECTION'| translate }}
+                                {{ row.sensorConfiguration[row.bikecounter]['directions.1.desc'] }}:</th>
+                            <td>
+                                <ng-container *ngIf="row.countedStats && row.countedStats.detectionDir1Count">
+                                    {{ row.countedStats.detectionDir1Count }}</ng-container>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'BIKECOUNTER.AVG_TEMPERATURE'| translate }} [°C]:</th>
+                            <td>
+                                <ng-container *ngIf="row.countedStats && row.countedStats.avgTemperature">
+                                    {{ row.countedStats.avgTemperature }} </ng-container>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="vertical-buttons">
+                    <button mat-icon-button [routerLink]="['/locality/', row.bikecounter]" class="map-button"
+                        [matTooltip]="'BIKECOUNTER.SEE_STATISTICS' | translate">
+                        <mat-icon>poll</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="openMap(row)" class="map-button"
+                        [matTooltip]="'BIKECOUNTER.SEE_MAP' | translate">
+                        <mat-icon>map</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="menu">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="user-menu">
+            <button mat-icon-button (click)="expandedElement = expandedElement === row ? null : row"
+                class="action-menu-button">
+                <mat-icon *ngIf="expandedElement !== row">expand_more</mat-icon>
+                <mat-icon *ngIf="expandedElement === row">expand_less</mat-icon>
+            </button>
+        </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="more">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="user-menu">
+            <button mat-icon-button [routerLink]="['/detail/', row.bikecounter]" class="action-menu-button">
+                <mat-icon>navigate_next</mat-icon>
+            </button>
+        </td>
+
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.expanded-row]="expandedElement === row">
+    </tr>
+
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+</table>
+
+<mat-card *ngIf="bikes.data.length === 0" class="loading-card">
+    <mat-progress-spinner 
+      color="primary" 
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+
+  
+<mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" showFirstLastButtons></mat-paginator>

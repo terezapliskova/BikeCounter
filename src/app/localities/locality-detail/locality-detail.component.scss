@@ -1,0 +1,77 @@
+@import '~@angular/material/theming';
+
+
+
+.nav-butt button{
+    font-size: 18px;
+    color: mat-color($mat-grey, 800);
+    float: left;
+    height: 100%;
+    min-width: 150px;
+}
+
+.mobile-butt{
+    width: 100%;
+    font-size: 18px;
+    color: mat-color($mat-grey, 800);
+}
+
+.nav-butt-active{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 2px solid mat-color($mat-light-blue, 600);
+}
+
+.second-nav{
+    color: mat-color($mat-grey, 800);
+    padding-top:5px;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+    z-index: 8;
+    background-color: mat-color($mat-grey, 200);
+    white-space: nowrap;
+    position: absolute;
+    width: 100%
+}
+
+.mobile-nav{
+    position: absolute;
+    width: 100%;
+}
+
+.nav-butt{
+    height: 47px;
+    display: inline-block;
+    height: 95%;
+
+    text-align: center;
+}
+
+.main-scroll-container{
+
+}
+
+.show-hide {
+    position: absolute;
+    box-shadow: 3px 3px 3px 0 rgba(0,0,0,0.30);
+    background-color: white;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 8;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: mat-color($mat-grey, 200);
+}
+
+.show-hide:hover {
+    box-shadow: 14px 14px 28px 0 rgba(0,0,0,0.25);
+  }
+
+.show-hide-icon{
+
+}
+

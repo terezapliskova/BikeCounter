@@ -1,0 +1,39 @@
+
+
+    <h1 matDialogTitle>{{ 'USERS.ADD' | translate }}</h1>
+
+
+        <mat-form-field hideRequiredMarker="true">
+            <input matInput required type="email" [(ngModel)]="data.user.email" name="email"
+                [placeholder]="'AUTH.EMAIL' | translate" [formControl]="emailFormControl">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                {{ 'AUTH.REQUIRED_EMAIL' | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field hideRequiredMarker="true">
+            <input matInput required type="password" [(ngModel)]="data.user.password" minlength="6" name="password"
+                [placeholder]="'AUTH.PASSWORD' | translate">
+            <mat-error>{{ 'AUTH.REQUIRED_PASSWORD' | translate }}</mat-error>
+        </mat-form-field>
+
+
+
+        <mat-radio-group class="radio-group" [(ngModel)]="data.user.role" required>
+            <mat-radio-button class="radio-button" [value]="Role.admin">{{ 'USERS.ROLE.ADMIN' | translate }}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="Role.user">{{ 'USERS.ROLE.USER' | translate }}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="Role.service">{{ 'USERS.ROLE.SERVICE' | translate }}
+            </mat-radio-button>
+        </mat-radio-group>
+
+
+
+        <div mat-dialog-actions align="end">
+                <button  mat-button (click)="dialogRef.close(null)">{{ 'APP.CANCEL' | translate }}</button>
+            <button color="primary" mat-raised-button (click)="dialogRef.close(data)">{{ 'APP.ADD' | translate }}</button>
+        </div>
+
+
+
+

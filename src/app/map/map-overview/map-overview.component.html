@@ -1,0 +1,35 @@
+<common-sidenav #sidenav [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [navigationsPersonal]="navigationsPeronal"
+    [translate]="translate" [user]="user" [isAdmin]="isAdmin" [profileName]="profileName" (logout)="logout()"
+    (login)="login()" [showLogoutButt]='false'>
+    <common-toolbar #toolbar [translate]="translate" [title]="settings.title" showMenuBtn="true"
+        [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [isAdmin]="isAdmin"
+        [profileName]="profileName" (sidenavBtnClick)="sidenav.open()" (login)="redirectLogin()"
+        (logout)="logout()" showBoxShadowByDefault="true" [showProgressBarFiller]='false' [ZIndex]='100'  [showTitlebarContent]="isDesktop()">
+        <div title class='logo'><img src="../../assets/logo-white-blue.png" class='logo'></div>
+    </common-toolbar>
+    <div class="map-container">
+        <div class="bc-list" *ngIf="showMap" [style.height.px]="mapHeight" [class.hide-list]="!showListInfo"
+            [class.show-list-desktop]="showListInfo && isDesktop()"
+            [class.show-list-mobile]="showListInfo && !isDesktop()">
+            <div class="writing-place">
+                <app-bike-list #bikeList [bikecounters]="bikes.data" (bikeSelected)="selectBikeToMap($event)">
+                </app-bike-list>
+            </div>
+            <div class="show-hide" (click)="changeShowListInfo()">
+                <mat-icon class="show-hide-icon" *ngIf="showListInfo">keyboard_arrow_left</mat-icon>
+                <mat-icon class="show-hide-icon" *ngIf="!showListInfo">keyboard_arrow_right</mat-icon>
+            </div>
+        </div>
+       
+        <div *ngIf="showMap" class="map-insert">
+            <app-map #map [bikecounters]="bikes.data" [initWidth]="mapWidth" [initHeight]="mapHeight"
+                (bcSelected)="selectBikeToList($event)"></app-map>
+        </div>
+    </div>
+    <mat-card *ngIf="!showMap" class="loading-card">
+        <mat-progress-spinner 
+          color="primary" 
+          mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-card>
+</common-sidenav>

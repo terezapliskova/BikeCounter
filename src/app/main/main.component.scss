@@ -1,0 +1,34 @@
+@import "~@angular/material/theming";
+
+.white-logo {
+  width: 80px;
+  height: 80px;
+  font-size: 36px;
+  color: darken(grey, 20%);
+}
+
+.white-logo:hover {
+  cursor: default;
+}
+
+.white-logo-title {
+  width: 55px;
+  height: 55px;
+  font-size: 26px;
+  color: darken(grey, 20%);
+}
+
+.white-logo-title:hover {
+  cursor: pointer;
+}
+
+.title {
+  color: white;
+  font-size: 36px;
+  display: inline;
+  margin-left: 10px;
+}
+
+.logo{
+    height: 100%
+  }

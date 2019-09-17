@@ -1,0 +1,48 @@
+<common-sidenav #sidenav [navigationsModules]="navigationsModules" [navigationsApplication]="navigationsApplication" [navigationsPersonal]="navigationsPeronal"
+    [translate]="translate" [user]="user" [isAdmin]="isAdmin" [profileName]="profileName" (logout)="logout()"
+    (login)="login()" [showLogoutButt]='false'>
+    <common-toolbar *ngIf="bikecounter" #toolbar [translate]="translate" [showProgressBar]="showProgressBar"
+        showBackBtn="true" [title]="bikecounter.desc" [showBoxShadowByDefault]='true' [showProgressBarFiller]='false'>
+    </common-toolbar>
+
+    <div class="main-scroll-container">
+        <div class="second-nav" [class.mobile-nav]="!isDesktop()">
+            <div *ngIf="(bikecounter && toolbar !== undefined) && showSecondNav">
+                <div [class.nav-butt]="isDesktop()" [class.mobile-butt]="!isDesktop()"
+                    [class.nav-butt-active]="tabIndex === 0">
+                    <button mat-button (click)="setTabIndex(0)">
+                        {{'LOCALITY.ACTUAL_SITUATION' | translate}}
+                    </button>
+                </div>
+                <div [class.nav-butt]="isDesktop()" [class.mobile-butt]="!isDesktop()"
+                    [class.nav-butt-active]="tabIndex === 1">
+                    <button mat-button (click)="setTabIndex(1)">
+                        {{'LOCALITY.STATISTICS' | translate}}
+                    </button>
+                </div>
+                <div [class.nav-butt]="isDesktop()" [class.mobile-butt]="!isDesktop()"
+                    [class.nav-butt-active]="tabIndex === 2">
+                    <button mat-button (click)="setTabIndex(2)">
+                        {{'LOCALITY.COMMENTS' | translate}}
+                    </button>
+                </div>
+            </div>
+            <div class="show-hide" (click)="changeShowSecondNav()" *ngIf="!isDesktop()">
+                <mat-icon class="show-hide-icon" *ngIf="showSecondNav">keyboard_arrow_up</mat-icon>
+                <mat-icon class="show-hide-icon" *ngIf="!showSecondNav">keyboard_arrow_down</mat-icon>
+            </div>
+        </div>
+
+        <div *ngIf="bikecounter">
+            <div *ngIf="tabIndex === 0">
+                <app-hour-overview [bikecounter]="bikecounter" [toolbar]="toolbar"></app-hour-overview>
+            </div>
+            <div *ngIf="tabIndex === 1">
+                <app-statistics [bikecounter]="bikecounter" [toolbar]="toolbar"></app-statistics>
+            </div>
+            <div *ngIf="tabIndex === 2">
+                <app-comments [bikecounter]="bikecounter" [toolbar]="toolbar"></app-comments>
+            </div>
+        </div>
+    </div>
+</common-sidenav>

@@ -1,0 +1,37 @@
+.table-bc{
+    width: 100%
+}
+
+.tab-menu {
+    text-align: right
+}
+
+.row-table{
+    cursor: pointer;
+}
+
+.row-table:hover{
+    background: #f5f5f5;
+}
+
+.white-logo-title {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+    color: darken(grey, 20%);
+  }
+
+  .white-logo-title:hover {
+    cursor: pointer;
+  }
+
+  .logo{
+    height: 100%
+  }
+
+  .loading-card {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: unset
+}

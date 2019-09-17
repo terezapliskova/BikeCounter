@@ -1,0 +1,72 @@
+<div class="main-container">
+    <div class="map-container" [style.height.px]="mapHeight" [style.width.px]="mapWidth">
+        <div *ngIf="!showMap" class="loading-div">
+            {{ 'APP.LOADING' | translate}}
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </div>
+        <div *ngIf="showMap" class="map-insert">
+            <app-map #map [bikecounters]="[bikecounter]" [initWidth]="mapWidth" [initHeight]="mapHeight"></app-map>
+        </div>
+    </div>
+    <div class="card-container" fxLayout.lt-md="column" fxLayout.gt-sm="row">
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="33" class="card">
+            <mat-card class="card-content cycle-data">
+                <mat-card-header>
+                    <mat-card-title>{{'BIKECOUNTER.CYCLIST_DETECTION' | translate}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div *ngIf="!lineChart " class="loading-div">
+                        {{ 'APP.LOADING' | translate}}
+                        <span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                    </div>
+                    <div >
+                        <canvas id="lineChart">{{ lineChart}}</canvas>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="33" class="card">
+            <mat-card class="card-content weather-data">
+                <mat-card-header>
+                    <mat-card-title>{{'LOCALITY.WEATHER_INFO' | translate}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <div class='actual' *ngIf="bikecounter && actualWeather">
+                        <div>{{getDate(actualWeather['dt_txt'])}}</div>
+                        <img [src]="icon">
+                        <div>
+                            {{bikecounter.countedStats.actualTemperature}} °C
+                        </div>
+                        <div>vítr: {{actualWeather.wind.speed}} m/s</div>
+                    </div>
+                    <div class='forecast-list' *ngIf="forecast">
+                        <div *ngFor="let f of forecast.list" class="forecast">
+
+                            <div>{{getDate(f['dt_txt'])}}</div>
+                            <img [src]="'http://openweathermap.org/img/w/'+f.weather[0].icon+'.png'" class="img-margin">
+                            <div>{{f.main.temp}} °C</div>
+                            <div>{{'LOCALITY.WIND' | translate}}: {{f.wind.speed}} m/s</div>
+
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div fxFlex.lt-md="100" fxFlex.gt-sm="33" class="card">
+            <mat-card class="card-content actual-picture">
+                <mat-card-header>
+                    <mat-card-title>{{'LOCALITY.ACTUAL_PHOTO' | translate}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content></mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

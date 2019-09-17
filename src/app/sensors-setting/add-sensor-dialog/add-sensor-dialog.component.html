@@ -1,0 +1,45 @@
+<h1 matDialogTitle>{{ data.title | translate }}</h1>
+<mat-error  *ngIf="BCExist(data.bikecounter.bikecounter)"  class="alert"> {{ 'BIKECOUNTER.EXIST' | translate }}</mat-error>
+
+<mat-form-field hideRequiredMarker="true">
+    <input matInput required [(ngModel)]="data.bikecounter.bikecounter" name="bikecounter"
+        [placeholder]="'BIKECOUNTER.BIKECOUNTER' | translate" [disabled]="showEditBtn">
+    <mat-error>
+        {{ 'BIKECOUNTER.BIKECOUNTER_REQUIRED' | translate }}</mat-error>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput [(ngModel)]="data.bikecounter.desc"
+        [placeholder]="'SENSORS.DESC' | translate">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>{{'SENSORS.POSITION_TZ' | translate}}</mat-label>
+    <mat-select [(ngModel)]="data.bikecounter.position_tz">
+        <mat-option *ngFor="let tz of data.timeZones" [value]="tz.name">
+            {{tz.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+
+
+<mat-form-field>
+    <textarea matInput [placeholder]="'SENSORS.INI_FILE' | translate" [(ngModel)]="data.bikecounter.config" rows="10"></textarea>
+</mat-form-field>
+
+<input hidden type="file" accept=".csv, .txt, .ini" #fileInput name="file"
+(change)="fileInputChanged($event)" />
+<mat-form-field  (click)="fileInput.click()">
+<input matInput readonly [value]="fileName | translate"
+    [placeholder]="'SENSORS.CONFIG_FILE' | translate">
+<mat-icon matSuffix>file_upload</mat-icon>
+</mat-form-field>
+
+<div mat-dialog-actions align="end">
+    <button [color]="color" mat-button (click)="dialogRef.close(null)">{{ 'APP.CANCEL' | translate }}</button>
+    <button [color]="color" *ngIf="showAddBtn" mat-button (click)="dialogRef.close(data)"
+        [disabled]="BCExist(data.bikecounter.bikecounter)">{{ 'APP.ADD' | translate }}</button>
+    <button *ngIf="showEditBtn" [color]="color" mat-button
+        (click)="this.dialogRef.close(data)">{{'APP.EDIT' | translate }}</button>
+</div>

@@ -1,0 +1,11 @@
+<h1 matDialogTitle>{{ 'SETTINGS.LANGUAGE' | translate }}</h1>
+
+<mat-radio-group [(ngModel)]="language" class="radio-group" (change)="changeLanguage()">
+    <mat-radio-button *ngFor="let lng of languages" [value]="lng" class="radio-button">
+        {{ lng | translate }}
+    </mat-radio-button>
+</mat-radio-group>
+
+<div mat-dialog-actions align="end">
+    <button color="primary" mat-button (click)="dialogRef.close()">{{ 'APP.CANCEL' | translate }}</button>
+</div>
